@@ -7,7 +7,7 @@ import {
   ResultsTypes,
   CharacterSummaryTypes,
 } from "../types/characters";
-import { Modal } from "../component/Modal";
+import { Modal } from "../components/Modal";
 
 const PokemonCharacters: any = () => {
   const [characters, setCharacters] = useState<CharacterSummaryTypes[]>([]);
@@ -36,16 +36,19 @@ const PokemonCharacters: any = () => {
   }, []);
 
   const showSharacterDetails = async (characterName: string) => {
-    const details = await getCharacterDetails(characterName)
-    setCharacterDetails(details)
-    setShowModal(true)
-  }
+    const details = await getCharacterDetails(characterName);
+    setCharacterDetails(details);
+    setShowModal(true);
+  };
 
   const onclose = () => {
     setShowModal(false);
   };
 
-  console.log('characterDetails>>', characterDetails)
+  console.log(
+    "characterDetails >>",
+    characterDetails && characterDetails.moves
+  );
 
   if (error) return console.error(error);
 
@@ -56,7 +59,11 @@ const PokemonCharacters: any = () => {
       <ul>
         {characters &&
           characters.map((character: CharacterSummaryTypes, i: number) => (
-            <li className={styles.character_list} key={i} onClick={() => showSharacterDetails(character.name)} >
+            <li
+              className={styles.character_list}
+              key={i}
+              onClick={() => showSharacterDetails(character.name)}
+            >
               <p>{character.name}</p>
               <Image
                 alt={character.name}
@@ -68,16 +75,112 @@ const PokemonCharacters: any = () => {
           ))}
       </ul>
 
-      {characterDetails &&  <Modal title={characterDetails.species.name} onClose={onclose} open={showModal}>
-        <p><span className={styles.bold}>Species:</span>  {characterDetails.species.name}</p>
-        <p>
-          <ul>
-          {characterDetails && characterDetails.stats.map((specieStat: any, i: number) => (
-            <p key={i}><span className={styles.bold}>Base Stat: {specieStat.base_stat}</span></p>
-            ))}
-          </ul>
-        </p>
-      </Modal>}
+      {characterDetails && (
+        <Modal title="Pokemon Details" onClose={onclose} open={showModal}>
+          <div className={styles.modal_layout}>
+            <div className={styles.layout}>
+              <p>
+                <span className={styles.bold}>Species:</span>{" "}
+                {characterDetails.species.name}
+              </p>
+              <div className={styles.display}>
+                <Image
+                alt={characterDetails.species.name}
+                src={characterDetails.sprites.front_default}
+                width={70}
+                height={70}
+              />
+              </div>
+              
+              <p>
+                <p>
+                  <span className={styles.spacing}>
+                    <span className={styles.bold}>Weight: </span>
+                    {characterDetails.weight}
+                  </span>
+                </p>
+                <ul>
+                  <p className={styles.bold}>Stats: </p>
+                  {characterDetails &&
+                    characterDetails.stats.map((specieStat: any, i: number) => (
+                      <p key={i}>
+                        <span className={styles.spacing}>
+                          <span className={styles.bold}>Base Stat:</span>{" "}
+                          {specieStat.base_stat}
+                        </span>
+                        <span className={styles.spacing}>
+                          <span className={styles.bold}>Effort:</span>{" "}
+                          {specieStat.effort}
+                        </span>
+                        <span className={styles.spacing}>
+                          <span className={styles.bold}>Stat name:</span>{" "}
+                          {specieStat.stat.name}
+                        </span>
+                        <br />
+                        <span className={styles.spacing}>
+                          <span className={styles.bold}>Stat Url:</span>{" "}
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href={specieStat.stat.url}
+                          >
+                            Species stats url(click me)
+                          </a>
+                        </span>
+                      </p>
+                    ))}
+                </ul>
+              </p>
+              <p>
+                <ul>
+                  <p className={styles.bold}>Types: </p>
+                  {characterDetails &&
+                    characterDetails.types.map(
+                      (CharacterTypes: any, i: number) => (
+                        <p key={i}>
+                          <span className={styles.spacing}>
+                            <span className={styles.bold}>Slot:</span>{" "}
+                            {CharacterTypes.slot}
+                          </span>
+                          <span className={styles.spacing}>
+                            <span className={styles.bold}>Type:</span>{" "}
+                            {CharacterTypes.type.name}
+                          </span>
+                          <br />
+                          <span className={styles.spacing}>
+                            <span className={styles.bold}>Type Url:</span>{" "}
+                            <a
+                              target="_blank"
+                              rel="noreferrer"
+                              href={CharacterTypes.type.url}
+                            >
+                              Species type url(click me)
+                            </a>
+                          </span>
+                        </p>
+                      )
+                    )}
+                </ul>
+              </p>
+            </div>
+
+            <div className={styles.layout}>
+              <Image
+                alt={characterDetails.species.name}
+                src={characterDetails.sprites.front_default}
+                width={70}
+                height={70}
+              />
+              <p className={styles.bold}>Moves: </p>
+              <div className={styles.scroll_view}>
+                <pre>
+                  <code>{JSON.stringify(characterDetails.moves, null, 2)}</code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

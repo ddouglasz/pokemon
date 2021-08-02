@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Axios } from "../../utils/axiosConfig";
 import { pages } from '../../constants'
-import { CharacterSummaryTypes, ResultsTypes } from '../../types/characters'
+import { ResultsTypes } from '../../types/characters'
 
 export const getAllPokemonCharacters = async (offset: number) => {
   try {
