@@ -1,7 +1,7 @@
 import styles from "../styles/Home.module.css";
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import { getAllPokemonCharacters } from "./api/actions";
+import { getAllPokemonCharacters, getCharacterDetails } from "./api/actions";
 import {
   CharacterTypes,
   ResultsTypes,
@@ -11,11 +11,12 @@ import { Modal } from "../component/Modal";
 
 const PokemonCharacters: any = () => {
   const [characters, setCharacters] = useState<CharacterSummaryTypes[]>([]);
+  const [characterDetails, setCharacterDetails] = useState<any>(null);
   const [error, setError] = useState<null | any>(null);
   const [next, setNext] = useState<string>("");
   const [previous, setPrevious] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,9 +35,17 @@ const PokemonCharacters: any = () => {
     fetchData();
   }, []);
 
+  const showSharacterDetails = async (characterName: string) => {
+    const details = await getCharacterDetails(characterName)
+    setCharacterDetails(details)
+    setShowModal(true)
+  }
+
   const onclose = () => {
     setShowModal(false);
   };
+
+  console.log('characterDetails>>', characterDetails)
 
   if (error) return console.error(error);
 
@@ -47,7 +56,7 @@ const PokemonCharacters: any = () => {
       <ul>
         {characters &&
           characters.map((character: CharacterSummaryTypes, i: number) => (
-            <li key={i}>
+            <li className={styles.character_list} key={i} onClick={() => showSharacterDetails(character.name)} >
               <p>{character.name}</p>
               <Image
                 alt={character.name}
@@ -59,13 +68,16 @@ const PokemonCharacters: any = () => {
           ))}
       </ul>
 
-        <Modal
-          title="this is a js object"
-          onClose={onclose}
-          open={showModal}
-        >
-          <p>Hello</p>
-        </Modal>
+      {characterDetails &&  <Modal title={characterDetails.species.name} onClose={onclose} open={showModal}>
+        <p><span className={styles.bold}>Species:</span>  {characterDetails.species.name}</p>
+        <p>
+          <ul>
+          {characterDetails && characterDetails.stats.map((specieStat: any, i: number) => (
+            <p key={i}><span className={styles.bold}>Base Stat: {specieStat.base_stat}</span></p>
+            ))}
+          </ul>
+        </p>
+      </Modal>}
     </div>
   );
 };

@@ -33,12 +33,12 @@ export const Modal: FC<ModalProps> = ({ children, title, onClose, open }) => {
       id="modal-id"
       onClick={(e: ModalMouseEvent) => handleOutsideClick(e)}
     >
-      <div className="inner">
+      <div className={styles.inner}>
         <header className="title-header">
-          {title && <h2 className="title">{title}</h2>}
           <button data-testid="close-modal-button" onClick={() => onClose()}>
             ✖️
           </button>
+          {title && <h2 className="title">{title}</h2>}
         </header>
         <div className="children-container px-3 py-2">{children}</div>
       </div>
