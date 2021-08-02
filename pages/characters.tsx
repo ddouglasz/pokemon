@@ -45,10 +45,6 @@ const PokemonCharacters: any = () => {
     setShowModal(false);
   };
 
-  console.log(
-    "characterDetails >>",
-    characterDetails && characterDetails.moves
-  );
 
   if (error) return console.error(error);
 

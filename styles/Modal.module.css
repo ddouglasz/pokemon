@@ -16,7 +16,8 @@
 .inner {
   padding: 1rem;
   background: linear-gradient(45deg, #1f3059, #1b2a4e 40%, #243869);
-  width: 30rem;
+  width: 80%;
+  height: 90%;
   position: absolute;
   color: white;
   @media screen and (max-width: 736px) {
@@ -24,14 +25,18 @@
   }
 }
 
-.title-header {
-    padding: 20px 30px;
-    display: flex;
-    justify-content: flex-end;
+.title_header {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }
 
-.title {
-    
+.close_btn {
+  height: fit-content;
+}
+
+.close_btn:hover {
+ cursor: pointer;
 }
 
 .children-container {
