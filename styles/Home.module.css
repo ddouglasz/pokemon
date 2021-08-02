@@ -52,7 +52,22 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
+.bold {
+  font-weight: bold;
+}
+
+.character_list:hover {
+  cursor: pointer;
+  background: linear-gradient(45deg, #1f3059, #1b2a4e 40%, #0070f3);
+  color: white;
+}
+
+.character_list {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: auto;
+  width: 60%;
+  list-style: none;
+
 }
