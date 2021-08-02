@@ -1,7 +1,9 @@
 import styles from "../styles/Home.module.css";
+import ReactPaginate from "react-paginate-next";
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { getAllPokemonCharacters, getCharacterDetails } from "./api/actions";
+import { pages } from "../constants";
 import {
   CharacterTypes,
   ResultsTypes,
@@ -17,34 +19,63 @@ const PokemonCharacters: any = () => {
   const [previous, setPrevious] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const pokemonData = await getAllPokemonCharacters(16);
-        const { characterSummary, next, previous } = pokemonData;
-
+        const pokemonData = await getAllPokemonCharacters(offset);
+        const { count, next, previous, characterSummary } = pokemonData;
+        
         setNext(next);
         setPrevious(previous);
         setCharacters(characterSummary);
+        setCount(count);
       } catch (error) {
         setError(error);
       }
     }
-
+    
     fetchData();
-  }, []);
-
+  }, [offset]);
+  
+  
   const showSharacterDetails = async (characterName: string) => {
     const details = await getCharacterDetails(characterName);
     setCharacterDetails(details);
     setShowModal(true);
   };
-
+  
   const onclose = () => {
     setShowModal(false);
   };
+  
+  //pagination 
+  const pageCount = Math.ceil(count / pages.PAGE_LIMIT)
 
+  const handlePageClick = async(e: { selected: any; }) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * pages.PAGE_LIMIT;
+
+
+    setCurrentPage(selectedPage)
+    setOffset(offset)
+
+    try {
+      const pokemonData = await getAllPokemonCharacters(offset);
+      const { count, next, previous, characterSummary } = pokemonData;
+      
+      if(previous === null) return
+      setNext(next);
+      setPrevious(previous);
+      setCharacters(characterSummary);
+      setCount(count);
+    } catch (error) {
+      setError(error);
+    }
+    
+  };
 
   if (error) return console.error(error);
 
@@ -81,13 +112,12 @@ const PokemonCharacters: any = () => {
               </p>
               <div className={styles.display}>
                 <Image
-                alt={characterDetails.species.name}
-                src={characterDetails.sprites.front_default}
-                width={70}
-                height={70}
-              />
+                  alt={characterDetails.species.name}
+                  src={characterDetails.sprites.front_default}
+                  width={70}
+                  height={70}
+                />
               </div>
-              
               <p>
                 <p>
                   <span className={styles.spacing}>
@@ -177,6 +207,21 @@ const PokemonCharacters: any = () => {
           </div>
         </Modal>
       )}
+      <div>
+        <ReactPaginate
+          previousLabel={"prev"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
+      </div>
     </div>
   );
 };

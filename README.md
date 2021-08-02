@@ -35,6 +35,8 @@ location: `tests`
 - Better error handling - showing the user a clearer and more descriptive error message
 - Optimising the search. 
 - Although I did a bit of responsiveness for smaller screens, I believe I can do a neater job than where it is now.
+- Add CI/CD functionality.
+- Better folder structure.
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
