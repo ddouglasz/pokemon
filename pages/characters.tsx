@@ -27,7 +27,7 @@ const PokemonCharacters: any = () => {
       try {
         const pokemonData = await getAllPokemonCharacters(offset);
         const { count, next, previous, characterSummary } = pokemonData;
-        
+
         setNext(next);
         setPrevious(previous);
         setCharacters(characterSummary);
@@ -36,37 +36,35 @@ const PokemonCharacters: any = () => {
         setError(error);
       }
     }
-    
+
     fetchData();
   }, [offset]);
-  
-  
+
   const showSharacterDetails = async (characterName: string) => {
     const details = await getCharacterDetails(characterName);
     setCharacterDetails(details);
     setShowModal(true);
   };
-  
+
   const onclose = () => {
     setShowModal(false);
   };
-  
-  //pagination 
-  const pageCount = Math.ceil(count / pages.PAGE_LIMIT)
 
-  const handlePageClick = async(e: { selected: any; }) => {
+  //pagination
+  const pageCount = Math.ceil(count / pages.PAGE_LIMIT);
+
+  const handlePageClick = async (e: { selected: any }) => {
     const selectedPage = e.selected;
     const offset = selectedPage * pages.PAGE_LIMIT;
 
-
-    setCurrentPage(selectedPage)
-    setOffset(offset)
+    setCurrentPage(selectedPage);
+    setOffset(offset);
 
     try {
       const pokemonData = await getAllPokemonCharacters(offset);
       const { count, next, previous, characterSummary } = pokemonData;
-      
-      if(previous === null) return
+
+      if (previous === null) return;
       setNext(next);
       setPrevious(previous);
       setCharacters(characterSummary);
@@ -74,7 +72,6 @@ const PokemonCharacters: any = () => {
     } catch (error) {
       setError(error);
     }
-    
   };
 
   if (error) return console.error(error);
@@ -197,8 +194,8 @@ const PokemonCharacters: any = () => {
                 width={70}
                 height={70}
               />
-              <p className={styles.bold}>Moves: </p>
-              <div className={styles.scroll_view}>
+              <p className={styles.bold}>Moves (scroll down): </p>
+              <div className={styles.modal_scroll_view}>
                 <pre>
                   <code>{JSON.stringify(characterDetails.moves, null, 2)}</code>
                 </pre>
@@ -215,7 +212,7 @@ const PokemonCharacters: any = () => {
           breakClassName={"break-me"}
           pageCount={pageCount}
           marginPagesDisplayed={1}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={2}
           onPageChange={handlePageClick}
           containerClassName={"pagination"}
           subContainerClassName={"pages pagination"}

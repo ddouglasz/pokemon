@@ -15,6 +15,19 @@ a {
   box-sizing: border-box;
 }
 
+.pagination {
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  bottom: -10%;
+  right: 0;
+}
+@media (max-width: 400px) {
+  .pagination {
+    bottom: -10%;
+  }
+}
 .pagination > li {
   display: inline-block;
   /* padding-left: 0; */
@@ -36,7 +49,7 @@ a {
   margin-left: -1px;
 }
 
-.pagination>li.active>a {
+.pagination > li.active > a {
   color: #fff;
   background-color: #0070f3;
   border-color: #0070f3;
@@ -44,7 +57,7 @@ a {
 
 /* Style the active class (and buttons on mouse-over) */
 .pagination > li > a:hover {
-  background-color:  #0070f3;
+  background-color: #0070f3;
   color: white;
 }
 .pagination > li:first-child > a,
