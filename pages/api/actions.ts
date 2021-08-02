@@ -12,7 +12,7 @@ export const getAllPokemonCharacters = async (offset: number) => {
     const characterSummary = await Promise.all(results.map(async (result: ResultsTypes) => {
       return Axios.get(result.url)
         .then((response: any) => {
-            return { name: response.data.name, pokemon_image: response.data.sprites.front_default }
+          return { name: response.data.name, pokemon_image: response.data.sprites.front_default }
         })
         .catch((error) => {
           console.error(error)
@@ -20,6 +20,15 @@ export const getAllPokemonCharacters = async (offset: number) => {
     }))
 
     return { count, next, previous, characterSummary }
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCharacterDetails = async (name: string) => {
+  try {
+    const characterDetails = await Axios.get(`pokemon/${name}`);
+    return characterDetails.data
   } catch (error) {
     return error;
   }
