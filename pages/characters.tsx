@@ -1,12 +1,14 @@
 import styles from "../styles/Home.module.css";
 import ReactPaginate from "react-paginate-next";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getAllPokemonCharacters, getCharacterDetails } from "./api/actions";
+import {
+  getAllPokemonCharacters,
+  getCharacterDetails,
+  getSearchResults,
+} from "../api/actions";
 import { pages } from "../constants";
 import {
-  CharacterTypes,
-  ResultsTypes,
   CharacterSummaryTypes,
 } from "../types/characters";
 import { Modal } from "../components/Modal";
@@ -16,21 +18,20 @@ const PokemonCharacters: any = () => {
   const [characters, setCharacters] = useState<CharacterSummaryTypes[]>([]);
   const [characterDetails, setCharacterDetails] = useState<any>(null);
   const [error, setError] = useState<null | any>(null);
-  const [next, setNext] = useState<string>("");
-  const [previous, setPrevious] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const [searchCount, setSearchCount] = useState<number>(0);
+  const [searchResult, setSearchResult] = useState<CharacterSummaryTypes[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const pokemonData = await getAllPokemonCharacters(offset);
-        const { count, next, previous, characterSummary } = pokemonData;
+        const { count, characterSummary } = pokemonData;
 
-        setNext(next);
-        setPrevious(previous);
         setCharacters(characterSummary);
         setCount(count);
       } catch (error) {
@@ -58,16 +59,13 @@ const PokemonCharacters: any = () => {
     const selectedPage = e.selected;
     const offset = selectedPage * pages.PAGE_LIMIT;
 
-    setCurrentPage(selectedPage);
     setOffset(offset);
 
     try {
       const pokemonData = await getAllPokemonCharacters(offset);
-      const { count, next, previous, characterSummary } = pokemonData;
+      const { count, previous, characterSummary } = pokemonData;
 
       if (previous === null) return;
-      setNext(next);
-      setPrevious(previous);
       setCharacters(characterSummary);
       setCount(count);
     } catch (error) {
@@ -75,15 +73,54 @@ const PokemonCharacters: any = () => {
     }
   };
 
+  //handle search
+  const handleChange = async (event: any) => {
+    let results: string[] = [];
+    setSearchTerm(event.target.value);
+    if (event.target.value.length >= 3) {
+      results = PokemonList.filter((pokemon) =>
+        pokemon.toLowerCase().includes(searchTerm)
+      );
+
+      if(results.length === 0) return
+
+      const searchedList = await getSearchResults(results);
+      const { count, characterSummary } = searchedList;
+      setSearchResult(characterSummary);
+      setSearchCount(count);
+    }
+
+    if (event.target.value.length < 3) {
+      setSearchResult([]);
+    }
+  };
+
   if (error) return console.error(error);
 
   if (characters.length === 0) return "loading...";
 
+  const renderData = (searchResult: CharacterSummaryTypes[], characters: CharacterSummaryTypes[]) => {
+    if(searchResult.length === 0) {
+      return characters
+    } else {
+      return searchResult
+    }
+  }
+
+  const data = renderData(searchResult, characters)
+
   return (
     <div className={styles.container}>
+      <input
+        className={styles.search}
+        type="text"
+        placeholder="Search"
+        value={searchTerm}
+        onChange={handleChange}
+      />
       <ul>
-        {characters &&
-          characters.map((character: CharacterSummaryTypes, i: number) => (
+        {data &&
+          data.map((character: CharacterSummaryTypes, i: number) => (
             <li
               className={styles.character_list}
               key={i}
@@ -116,7 +153,7 @@ const PokemonCharacters: any = () => {
                   height={70}
                 />
               </div>
-              <p>
+              <div>
                 <p>
                   <span className={styles.spacing}>
                     <span className={styles.bold}>Weight: </span>
@@ -154,8 +191,8 @@ const PokemonCharacters: any = () => {
                       </p>
                     ))}
                 </ul>
-              </p>
-              <p>
+              </div>
+              <div>
                 <ul>
                   <p className={styles.bold}>Types: </p>
                   {characterDetails &&
@@ -185,7 +222,7 @@ const PokemonCharacters: any = () => {
                       )
                     )}
                 </ul>
-              </p>
+              </div>
             </div>
 
             <div className={styles.layout}>
