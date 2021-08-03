@@ -8,7 +8,7 @@
 }
 
 .main {
-  padding: 5rem 0;
+  padding: 0;
   flex: 1;
   position: relative;
   flex-direction: column;
@@ -84,9 +84,16 @@
   padding: 5px;
 }
 
-.scroll_view {
+.modal_scroll_view {
   top: 20%;
   height: 50vh;
+  overflow-y: scroll;
+  border: 1px solid;
+}
+
+.main_scroll_view {
+  top: 20%;
+  height: 80vh;
   overflow-y: scroll;
 }
 
@@ -98,9 +105,16 @@
     width: 98%;
     padding: 5px 0;
   }
-
   .layout {
     width: 100%;
+  }
+  .character_list {
+    width: 100%;
+  }
+  .main_scroll_view {
+    top: 20%;
+    height: 75vh;
+    overflow-y: scroll;
   }
 }
 

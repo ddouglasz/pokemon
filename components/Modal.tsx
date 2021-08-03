@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC } from "react";
 import styles from "../styles/Modal.module.css";
 
 interface ModalProps {

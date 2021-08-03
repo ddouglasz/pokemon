@@ -3,7 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import PokemonCharacters from "./characters";
 
- const Home = () => {
+const Home = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -16,10 +16,13 @@ import PokemonCharacters from "./characters";
         <h1 className={styles.title}>
           <a href="https://pokeapi.co">Pokemons!</a>
         </h1>
-        <PokemonCharacters />
+
+        <div className={styles.main_scroll_view}>
+          <PokemonCharacters />
+        </div>
       </main>
     </div>
   );
-}
+};
 
 export default Home;
