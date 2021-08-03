@@ -109,9 +109,6 @@ const PokemonCharacters: any = () => {
 
   const data = renderData(searchResult, characters)
 
-  // const data = searchResult.length === 0 ? characters : searchResult 
-  console.log({1: searchResult.length, 2: characters, 3: searchResult})
-
   return (
     <div className={styles.container}>
       <input
