@@ -13,7 +13,6 @@ yarn dev
 
 - Click a pokemon to get more details about them.
 ## LIST OF INTERESTING AREAS TO LOOK
-
 **_ actions _**
 Look into `pages>api>actions.ts` for the methods that fetch the data for the UI to consume.
 
@@ -34,12 +33,21 @@ I chose to send only the attribues of name and image from the promise, since tha
 
 - `accessing moves data:` I had two options: use `JSON.stringify(moves,null, 2)` to display the moves object or just pick a few attributes like the moves name and url to display. I went with showing the users a json display of all the moves data.
 
-- `Pagination: `
+- `Pagination: ` Pagination was pretty straightforward as almost everything I needed to plug into `ReactPaginate` was already coming along side the prefetched data.
+
+- `Search: ` My approach was to have an array of all pokemons and as the user searches, if the character is greater that 3, we check the array for characters that include those characters and bring them up as suggestion to the user.
 
 **_ tests _**
-location: `tests`
+location: `tests`: I faced an issue with test config, to save time, I only just added a test in the tst file to show how I would approach it.
 
-- I wrote a few tests to check for how my functions behave and also the existence of certain components. If I had more time on my side I would improve test coverage - I used
+## WORKFLOW
+- The `main` branch is sacred(lol), so I have only the setup of the project there. I have a `development` branch that contains most of the latest features of the project.
+
+- For every feature worked on, I create a branch (e.g `feat/implement-pagination`)and raise a Pull request against development branch and then go ahead to merge it.  
+
+- I checkout out of development latest branch to create new branches.
+
+- Once I felt satisfied with the minimum expected feature and started improving on it, I merged to main branch.
 
 ### THINGS TO IMPROVE
 
@@ -64,6 +72,8 @@ location: `tests`
 - Better folder structure.
 
 - better styling and handling of pagination.
+
+- Add loading when a character/character image is yet to load 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

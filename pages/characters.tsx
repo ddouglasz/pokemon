@@ -10,6 +10,7 @@ import {
   CharacterSummaryTypes,
 } from "../types/characters";
 import { Modal } from "../components/Modal";
+import { PokemonList } from "../utils/pokemonList";
 
 const PokemonCharacters: any = () => {
   const [characters, setCharacters] = useState<CharacterSummaryTypes[]>([]);
@@ -194,7 +195,7 @@ const PokemonCharacters: any = () => {
                 width={70}
                 height={70}
               />
-              <p className={styles.bold}>Moves (scroll down): </p>
+              <p className={styles.bold}>Moves: </p>
               <div className={styles.modal_scroll_view}>
                 <pre>
                   <code>{JSON.stringify(characterDetails.moves, null, 2)}</code>
