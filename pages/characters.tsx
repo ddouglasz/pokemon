@@ -1,16 +1,14 @@
 import styles from "../styles/Home.module.css";
 import ReactPaginate from "react-paginate-next";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   getAllPokemonCharacters,
   getCharacterDetails,
   getSearchResults,
-} from "./api/actions";
+} from "../api/actions";
 import { pages } from "../constants";
 import {
-  CharacterTypes,
-  ResultsTypes,
   CharacterSummaryTypes,
 } from "../types/characters";
 import { Modal } from "../components/Modal";
@@ -20,23 +18,17 @@ const PokemonCharacters: any = () => {
   const [characters, setCharacters] = useState<CharacterSummaryTypes[]>([]);
   const [characterDetails, setCharacterDetails] = useState<any>(null);
   const [error, setError] = useState<null | any>(null);
-  const [next, setNext] = useState<string>("");
-  const [previous, setPrevious] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const pokemonData = await getAllPokemonCharacters(offset);
-        const { count, next, previous, characterSummary } = pokemonData;
+        const { count, characterSummary } = pokemonData;
 
-        setNext(next);
-        setPrevious(previous);
         setCharacters(characterSummary);
         setCount(count);
       } catch (error) {
@@ -64,7 +56,6 @@ const PokemonCharacters: any = () => {
     const selectedPage = e.selected;
     const offset = selectedPage * pages.PAGE_LIMIT;
 
-    setCurrentPage(selectedPage);
     setOffset(offset);
 
     try {
@@ -72,8 +63,6 @@ const PokemonCharacters: any = () => {
       const { count, next, previous, characterSummary } = pokemonData;
 
       if (previous === null) return;
-      setNext(next);
-      setPrevious(previous);
       setCharacters(characterSummary);
       setCount(count);
     } catch (error) {
@@ -89,11 +78,11 @@ const PokemonCharacters: any = () => {
       results = PokemonList.filter((pokemon) =>
         pokemon.toLowerCase().includes(searchTerm)
       );
-      setSearchResults(results);
+
+      if(results.length === 0) return
+
       const searchedList = await getSearchResults(results);
       const { count, next, previous, characterSummary } = searchedList;
-      setNext(next);
-      setPrevious(previous);
       setCharacters(characterSummary);
       setCount(count);
     }

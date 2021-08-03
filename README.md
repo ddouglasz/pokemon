@@ -5,9 +5,9 @@ My thought process for approaching this question started from inspecting the api
 ## NAVIGATION
 
 - First, run the development server: 
-```bash
-yarn dev
-```
+
+1. install all dependencies: `yarn add`
+2. Start the app: `yarn dev`
 
 - Open [http://localhost:3000](http://localhost:3000) with your browser to see the list of pokemons.
 
@@ -18,7 +18,7 @@ Look into `pages>api>actions.ts` for the methods that fetch the data for the UI 
 
 
 
-- `getAllPokemonCharacters: ` this was interesting for me to fetch because I had to think of a way to access another set of data from the url that mnny async call would return. I concluded map through my returned data from the first axios call (characterSummary) then use a Promise.all()-based approach to make another call (Promise because I want all the data only when the promise have returned all of them).
+- `getAllPokemonCharacters: ` this was interesting for me to fetch because I had to think of a way to access another set of data from the url that my async call would return. I concluded to map through my returned data from the first axios call (`characterSummary`) then use a Promise.all-based approach to make another call (Promise because I want all the data only when the promise have returned all of them).
 I structure them in an object with my pagination data and send to the frontend where it is now available to consume when the page lands.
 I chose to send only the attribues of name and image from the promise, since that is basically what we need for the frontend
 
@@ -71,7 +71,7 @@ location: `tests`: I faced an issue with test config, to save time, I only just 
 
 - Better folder structure.
 
-- better styling and handling of pagination.
+- Better styling and handling of pagination.
 
 - Add loading when a character/character image is yet to load 
 

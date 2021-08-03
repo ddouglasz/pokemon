@@ -1,13 +1,15 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { Axios } from "../../utils/axiosConfig";
-import { pages } from '../../constants'
-import { ResultsTypes } from '../../types/characters'
+import axios from "axios";
+import { pages, urls } from '../constants'
+import { ResultsTypes } from '../types/characters'
+
+const Axios = axios.create({
+  baseURL: urls.BASE_URL,
+});
 
 export const getAllPokemonCharacters = async (offset: number) => {
   try {
     const characters = await Axios.get(`pokemon?limit=${pages.PAGE_LIMIT}&offset=${offset}`);
-    const { results, count, next, previous } = characters.data
+    const { results, count } = characters.data
 
     const characterSummary = await Promise.all(results.map(async (result: ResultsTypes) => {
       return Axios.get(result.url)
@@ -19,7 +21,7 @@ export const getAllPokemonCharacters = async (offset: number) => {
         })
     }))
 
-    return { count, next, previous, characterSummary }
+    return { count, characterSummary }
   } catch (error) {
     return error;
   }
@@ -35,11 +37,7 @@ export const getCharacterDetails = async (name: string) => {
 };
 
 export const getSearchResults = async (names: string[]) => {
-
-
   try {
-
-
     const getSearchResults = await Promise.all(names.map(async (name: string) => {
       return Axios.get(`pokemon/${name.toLocaleLowerCase()}`)
       .then((response: any) => {
@@ -50,7 +48,7 @@ export const getSearchResults = async (names: string[]) => {
         })
     }))
 
-    return { count: names.length, next: '', previous: '', characterSummary: getSearchResults }
+    return { count: names.length, characterSummary: getSearchResults }
   } catch (error) {
     return error;
   }
