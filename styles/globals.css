@@ -25,8 +25,13 @@ a {
 }
 @media (max-width: 400px) {
   .pagination {
-    bottom: -10%;
+    bottom: -8%;
   }
+
+.pagination > li > a,
+.pagination > li > span {
+  padding: 8px 8px;
+}
 }
 .pagination > li {
   display: inline-block;
@@ -47,6 +52,13 @@ a {
   background-color: #fff;
   border: 1px solid #ddd;
   margin-left: -1px;
+}
+
+@media (max-width: 400px) {
+.pagination > li > a,
+.pagination > li > span {
+  padding: 8px 8px;
+}
 }
 
 .pagination > li.active > a {
