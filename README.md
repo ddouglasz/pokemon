@@ -6,7 +6,7 @@ My thought process for approaching this question started from inspecting the api
 
 - First, run the development server: 
 
-1. install all dependencies: `yarn add`
+1. install all dependencies: `yarn`
 2. Start the app: `yarn dev`
 
 - Open [http://localhost:3000](http://localhost:3000) with your browser to see the list of pokemons.
@@ -76,6 +76,19 @@ location: `tests`: I faced an issue with test config, to save time, I only just 
 - Add loading when a character/character image is yet to load 
 
 - Add a loading component
+
+
+## BRANCHES 
+```
+- main
+- feat/get-all-pokemons
+- feat/get-pokemon-details
+- feat/add-pagination
+- feat/implement-search
+```
+
+
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
