@@ -77,6 +77,19 @@ location: `tests`: I faced an issue with test config, to save time, I only just 
 
 - Add a loading component
 
+
+## BRANCHES 
+```
+- main
+- feat/get-all-pokemons
+- feat/get-pokemon-details
+- feat/add-pagination
+- feat/implement-search
+```
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
