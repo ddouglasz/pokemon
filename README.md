@@ -1,6 +1,6 @@
 ## POKEMON
 
-[Hosted UI](Hosted on `https://poke-doug.netlify.app/`)
+[Hosted UI](`https://poke-doug.netlify.app/`)
 
 My thought process for approaching this question started from inspecting the api to be consumed firstly.
 
