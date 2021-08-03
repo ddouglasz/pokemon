@@ -1,0 +1,155 @@
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.main {
+  padding: 0;
+  flex: 1;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus,
+.title a:active {
+  text-decoration: underline;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 2rem;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.description {
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.character_list:hover {
+  cursor: pointer;
+  background: linear-gradient(45deg, #1f3059, #1b2a4e 40%, #0070f3);
+  color: white;
+}
+
+.character_list {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: auto;
+  width: 60%;
+  list-style: none;
+}
+
+.spacing {
+  margin-right: 10px;
+}
+
+.modal_layout {
+  display: flex;
+}
+
+.layout {
+  width: 50%;
+  padding: 5px;
+}
+
+.modal_scroll_view {
+  top: 20%;
+  height: 50vh;
+  overflow-y: scroll;
+  border: 1px solid;
+}
+
+.main_scroll_view {
+  top: 20%;
+  height: 80vh;
+  overflow-y: scroll;
+  margin-top: 50px;
+}
+
+.search {
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 40%;
+  top: 6%;
+  height: 26px;
+}
+
+@media (max-width: 400px) {
+  .modal_layout {
+    display: block;
+    height: 65vh;
+    overflow-y: scroll;
+    width: 98%;
+    padding: 5px 0;
+  }
+  .layout {
+    width: 100%;
+  }
+  .character_list {
+    width: 100%;
+  }
+  .main_scroll_view {
+    top: 20%;
+    height: 75vh;
+    overflow-y: scroll;
+  }
+  .search {
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 6%;
+    width: 100%;
+  }
+}
+
+@media (min-width: 400px) {
+  .display {
+    display: none;
+  }
+}
+
+.loading {
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  padding: 0;
+  right: 0;
+  left: 0;
+  width: 8%;
+}
