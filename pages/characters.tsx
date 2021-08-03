@@ -153,7 +153,7 @@ const PokemonCharacters: any = () => {
                   height={70}
                 />
               </div>
-              <p>
+              <div>
                 <p>
                   <span className={styles.spacing}>
                     <span className={styles.bold}>Weight: </span>
@@ -191,8 +191,8 @@ const PokemonCharacters: any = () => {
                       </p>
                     ))}
                 </ul>
-              </p>
-              <p>
+              </div>
+              <div>
                 <ul>
                   <p className={styles.bold}>Types: </p>
                   {characterDetails &&
@@ -222,7 +222,7 @@ const PokemonCharacters: any = () => {
                       )
                     )}
                 </ul>
-              </p>
+              </div>
             </div>
 
             <div className={styles.layout}>
