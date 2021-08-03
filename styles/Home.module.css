@@ -123,3 +123,11 @@
     display: none;
   }
 }
+
+.search {
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+}

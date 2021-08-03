@@ -33,3 +33,25 @@ export const getCharacterDetails = async (name: string) => {
     return error;
   }
 };
+
+export const getSearchResults = async (names: string[]) => {
+
+
+  try {
+
+
+    const getSearchResults = await Promise.all(names.map(async (name: string) => {
+      return Axios.get(`pokemon/${name.toLocaleLowerCase()}`)
+      .then((response: any) => {
+          return { name: response.data.name, pokemon_image: response.data.sprites.front_default }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }))
+
+    return { count: names.length, next: '', previous: '', characterSummary: getSearchResults }
+  } catch (error) {
+    return error;
+  }
+};

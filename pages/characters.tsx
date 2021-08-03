@@ -2,7 +2,11 @@ import styles from "../styles/Home.module.css";
 import ReactPaginate from "react-paginate-next";
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import { getAllPokemonCharacters, getCharacterDetails } from "./api/actions";
+import {
+  getAllPokemonCharacters,
+  getCharacterDetails,
+  getSearchResults,
+} from "./api/actions";
 import { pages } from "../constants";
 import {
   CharacterTypes,
@@ -22,6 +26,8 @@ const PokemonCharacters: any = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [count, setCount] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -75,12 +81,37 @@ const PokemonCharacters: any = () => {
     }
   };
 
+  //handle search
+  const handleChange = async (event: any) => {
+    setSearchTerm(event.target.value);
+    let results: string[] = [];
+    if (event.target.value.length >= 3) {
+      results = PokemonList.filter((pokemon) =>
+        pokemon.toLowerCase().includes(searchTerm)
+      );
+      setSearchResults(results);
+      const searchedList = await getSearchResults(results);
+      const { count, next, previous, characterSummary } = searchedList;
+      setNext(next);
+      setPrevious(previous);
+      setCharacters(characterSummary);
+      setCount(count);
+    }
+  };
+
   if (error) return console.error(error);
 
   if (characters.length === 0) return "loading...";
 
   return (
     <div className={styles.container}>
+      <input
+        className={styles.search}
+        type="text"
+        placeholder="Search"
+        value={searchTerm}
+        onChange={handleChange}
+      />
       <ul>
         {characters &&
           characters.map((character: CharacterSummaryTypes, i: number) => (

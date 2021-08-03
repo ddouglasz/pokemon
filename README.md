@@ -35,7 +35,7 @@ I chose to send only the attribues of name and image from the promise, since tha
 
 - `Pagination: ` Pagination was pretty straightforward as almost everything I needed to plug into `ReactPaginate` was already coming along side the prefetched data.
 
-- `Search: ` My approach was to have an array of all pokemons and as the user searches, if the character is greater that 3, we check the array for characters that include those characters and bring them up as suggestion to the user.
+- `Search: ` My approach was to have an array of all pokemons and as the user searches, if the character is greater that 3, we check the array for characters that include those characters send an array of the matching characters to the actions, map through it, get make an axios call for every name (`/pokemon/${name}`), resolve promise and send it back to the characters state to populate the state.
 
 **_ tests _**
 location: `tests`: I faced an issue with test config, to save time, I only just added a test in the tst file to show how I would approach it.
