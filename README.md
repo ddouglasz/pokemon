@@ -75,6 +75,8 @@ location: `tests`: I faced an issue with test config, to save time, I only just 
 
 - Add loading when a character/character image is yet to load 
 
+- Add a loading component
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.

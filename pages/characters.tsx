@@ -22,8 +22,6 @@ const PokemonCharacters: any = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState("");
-  
-  const [searchCount, setSearchCount] = useState<number>(0);
   const [searchResult, setSearchResult] = useState<CharacterSummaryTypes[]>([]);
 
   useEffect(() => {
@@ -87,7 +85,6 @@ const PokemonCharacters: any = () => {
       const searchedList = await getSearchResults(results);
       const { count, characterSummary } = searchedList;
       setSearchResult(characterSummary);
-      setSearchCount(count);
     }
 
     if (event.target.value.length < 3) {
@@ -97,7 +94,7 @@ const PokemonCharacters: any = () => {
 
   if (error) return console.error(error);
 
-  if (characters.length === 0) return "loading...";
+  if (characters.length === 0) return <div className={styles.loading}>Loading...</div>;
 
   const renderData = (searchResult: CharacterSummaryTypes[], characters: CharacterSummaryTypes[]) => {
     if(searchResult.length === 0) {
