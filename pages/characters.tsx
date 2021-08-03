@@ -22,6 +22,9 @@ const PokemonCharacters: any = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  const [searchCount, setSearchCount] = useState<number>(0);
+  const [searchResult, setSearchResult] = useState<CharacterSummaryTypes[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -60,7 +63,7 @@ const PokemonCharacters: any = () => {
 
     try {
       const pokemonData = await getAllPokemonCharacters(offset);
-      const { count, next, previous, characterSummary } = pokemonData;
+      const { count, previous, characterSummary } = pokemonData;
 
       if (previous === null) return;
       setCharacters(characterSummary);
@@ -72,8 +75,8 @@ const PokemonCharacters: any = () => {
 
   //handle search
   const handleChange = async (event: any) => {
-    setSearchTerm(event.target.value);
     let results: string[] = [];
+    setSearchTerm(event.target.value);
     if (event.target.value.length >= 3) {
       results = PokemonList.filter((pokemon) =>
         pokemon.toLowerCase().includes(searchTerm)
@@ -82,15 +85,32 @@ const PokemonCharacters: any = () => {
       if(results.length === 0) return
 
       const searchedList = await getSearchResults(results);
-      const { count, next, previous, characterSummary } = searchedList;
-      setCharacters(characterSummary);
-      setCount(count);
+      const { count, characterSummary } = searchedList;
+      setSearchResult(characterSummary);
+      setSearchCount(count);
+    }
+
+    if (event.target.value.length < 3) {
+      setSearchResult([]);
     }
   };
 
   if (error) return console.error(error);
 
   if (characters.length === 0) return "loading...";
+
+  const renderData = (searchResult: CharacterSummaryTypes[], characters: CharacterSummaryTypes[]) => {
+    if(searchResult.length === 0) {
+      return characters
+    } else {
+      return searchResult
+    }
+  }
+
+  const data = renderData(searchResult, characters)
+
+  // const data = searchResult.length === 0 ? characters : searchResult 
+  console.log({1: searchResult.length, 2: characters, 3: searchResult})
 
   return (
     <div className={styles.container}>
@@ -102,8 +122,8 @@ const PokemonCharacters: any = () => {
         onChange={handleChange}
       />
       <ul>
-        {characters &&
-          characters.map((character: CharacterSummaryTypes, i: number) => (
+        {data &&
+          data.map((character: CharacterSummaryTypes, i: number) => (
             <li
               className={styles.character_list}
               key={i}
