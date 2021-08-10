@@ -12,13 +12,8 @@ export const getAllPokemonCharacters = async (offset: number) => {
     const { results, count } = characters.data
 
     const characterSummary = await Promise.all(results.map(async (result: ResultsTypes) => {
-      return Axios.get(result.url)
-        .then((response: any) => {
-          return { name: response.data.name, pokemon_image: response.data.sprites.front_default }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+      const response = await Axios.get(result.url)
+      return { name: response.data.name, pokemon_image: response.data.sprites.front_default }
     }))
 
     return { count, characterSummary }
@@ -38,17 +33,12 @@ export const getCharacterDetails = async (name: string) => {
 
 export const getSearchResults = async (names: string[]) => {
   try {
-    const getSearchResults = await Promise.all(names.map(async (name: string) => {
-      return Axios.get(`pokemon/${name.toLocaleLowerCase()}`)
-      .then((response: any) => {
-          return { name: response.data.name, pokemon_image: response.data.sprites.front_default }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+    const searchResult = await Promise.all(names.map(async (name: string) => {
+      const response: any = await Axios.get(`pokemon/${name.toLocaleLowerCase()}`)
+      return { name: response.data.name, pokemon_image: response.data.sprites.front_default }
     }))
 
-    return { count: names.length, characterSummary: getSearchResults }
+    return { count: names.length, characterSummary: searchResult }
   } catch (error) {
     return error;
   }
