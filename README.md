@@ -2,8 +2,6 @@
 
 [Hosted UI](https://poke-doug.netlify.app/)
 
-My thought process for approaching this question started from inspecting the api to be consumed firstly.
-
 ## NAVIGATION
 
 - First, run the development server: 
